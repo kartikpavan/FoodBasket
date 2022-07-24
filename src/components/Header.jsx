@@ -8,13 +8,24 @@ import { Link } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../firebase.config";
 
+import { useGlobalContext } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
+
 const Header = () => {
 	const auth = getAuth(app);
 	const provider = new GoogleAuthProvider();
 
+	const [{ user }, dispatch] = useGlobalContext();
+
 	const login = async () => {
-		const response = await signInWithPopup(auth, provider);
-		console.log(response);
+		const {
+			user: { providerData, refreshToken },
+		} = await signInWithPopup(auth, provider);
+
+		dispatch({
+			type: actionType.SET_USER,
+			user: providerData[0],
+		});
 	};
 
 	return (
