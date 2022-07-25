@@ -18,14 +18,18 @@ const Header = () => {
 	const [{ user }, dispatch] = useGlobalContext();
 
 	const login = async () => {
-		const {
-			user: { providerData, refreshToken },
-		} = await signInWithPopup(auth, provider);
+		if (!user) {
+			const {
+				user: { providerData, refreshToken },
+			} = await signInWithPopup(auth, provider);
 
-		dispatch({
-			type: actionType.SET_USER,
-			user: providerData[0],
-		});
+			dispatch({
+				type: actionType.SET_USER,
+				user: providerData[0],
+			});
+
+			localStorage.setItem("user", JSON.stringify(providerData[0]));
+		}
 	};
 
 	return (
@@ -81,9 +85,9 @@ const Header = () => {
 							<div className="relative">
 								<motion.img
 									whileTap={{ scale: 0.6 }}
-									src={Avatar}
+									src={user ? user.photoURL : Avatar}
 									alt="avatar"
-									className="w-10 h-10  ml-6 drop-shadow-xl cursor-pointer"
+									className="w-10 h-10  ml-6 drop-shadow-xl cursor-pointer rounded-full"
 									onClick={login}
 								/>
 							</div>
