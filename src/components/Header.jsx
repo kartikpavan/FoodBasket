@@ -40,7 +40,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className="w-screen fixed z-50  ">
+		<header className="w-screen fixed z-50 p-2 ">
 			<div className="drawer ">
 				<input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col">
@@ -134,6 +134,7 @@ const Header = () => {
 										<Link
 											to="/createItem"
 											className="btn btn-primary border-none text-lg text-white flex items-center gap-2"
+											onClick={() => window.reload()}
 										>
 											Add Item <MdAdd />
 										</Link>
